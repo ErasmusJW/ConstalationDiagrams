@@ -1,0 +1,25 @@
+{
+    "name" : "ConstalationDiagrams",
+    "config" :{
+        "NumberOfPoints": {
+            "help": "Constalation size ex. 64 for QAM64 possible values [2,4,8,16,32,64,128] not not all modulation techniques currently support all constalation sizes",
+            "required" : true
+        },
+        "modulation": {
+            "help": "Modulation technique used possible values [BPSK,QPSK,QAM,PSK]",
+            "required" : true
+        },
+        "encoding": {
+            "help": "Use binary or grey [BINARY,GRAY]",
+            "required" : true
+        },
+        "powerlevel": {
+            "help": "Aveerage power or peak power, probably want peak power [AVG,PEAK] - initially only using peak",
+            "value" : "PEAK",
+            "required" : true
+        }
+
+    },
+    
+    "macros": ["LIBTEST_OVERRIDE=\"Lib test overide macro defualt text\"", "LIBTEST_NOTOVERRIDE=\"Lib test macro not overide\""]
+}

@@ -6,16 +6,17 @@
             "required" : true
         },
         "modulation": {
-            "help": "Modulation technique used possible values [BPSK,QPSK,QAM,PSK]",
+            "help": "Modulation technique used possible values [M_BPSK,M_QPSK,M_QAM,M_PSK]",
             "required" : true
         },
         "encoding": {
-            "help": "Use binary or grey [BINARY,GRAY]",
-            "required" : true
+            "help": "Use binary or grey [M_BINARY,M_GRAY] - Not used returns gray",
+            "required" : true,
+            "value" : "M_GRAY"
         },
         "powerlevel": {
-            "help": "Aveerage power or peak power, probably want peak power [AVG,PEAK] - initially only using peak",
-            "value" : "PEAK",
+            "help": "Average power or peak power, probably want peak power [M_AVG,M_PEAK] - initially only using peak",
+            "value" : "M_PEAK",
             "required" : true
         }
 

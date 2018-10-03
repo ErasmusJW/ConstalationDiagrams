@@ -1,8 +1,10 @@
+#ifndef CONSTALATION_DIAGRAMS_H
+#define CONSTALATION_DIAGRAMS_H
+
 // Contains hard mapped constallation diagrams
-
-
 #include<complex>
 #include<array>
+#include<cstdint>
 
 //Defines to compare to in preprocessor macros- to ensure smallest possible mem usage even without optimasation
 #define M_BPSK 1
@@ -14,6 +16,9 @@ namespace radio
 {
     // Conveniance typedefs
     using cmplx = std::complex<float>;
+	using constalationArray = std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS>;
+
+
     // static const std::array<cmplx,8> PSK_8_G = 
     // {{
     // }};
@@ -21,7 +26,7 @@ namespace radio
     // so all the preprocessor macrois is suppose to safe space if optimasation is off - not even sure it works 
 
 	#if(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_QPSK )
-		constexpr  std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> GetConstalationQPSK()
+		constexpr  constalationArray GetConstalationQPSK()
 		{
 			static_assert( MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 4 , "QPSK needs number of points equal to 4");
 
@@ -37,7 +42,7 @@ namespace radio
 	#endif
     
 	#if(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_BPSK)
-		constexpr  std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> GetConstalationBPSK()
+		constexpr  constalationArray GetConstalationBPSK()
 		{
 			static_assert( MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 2 , "BPSK needs number of points equal to 2");
 			return  {{
@@ -49,7 +54,7 @@ namespace radio
 	#endif
 
 	#if(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_PSK)
-		constexpr std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> GetConstalationPSK()
+		constexpr constalationArray GetConstalationPSK()
 		{
 			#if(MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 8)
 			return{{
@@ -78,7 +83,7 @@ namespace radio
 	#endif
 
 	#if(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_QAM)
-		constexpr  std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> GetConstalationQAM()
+		constexpr  constalationArray GetConstalationQAM()
 		{
 			#if(MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 8)
 			return{{
@@ -352,7 +357,7 @@ namespace radio
 
 
 
-    constexpr  std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> GetConstalation()
+    constexpr  constalationArray GetConstalation()
     {
         #if(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_QPSK )
             return GetConstalationQPSK();
@@ -375,25 +380,18 @@ namespace radio
 
 
 
-
-
-
-
-
-
-
-
-
      class ConstalationDiagram
      {
      public:
-         ConstalationDiagram();
+         ConstalationDiagram(){};
 		 //might want to dissable copy constructor
          ConstalationDiagram(ConstalationDiagram &&) = default;
          ConstalationDiagram(const ConstalationDiagram &) = default; 
          ConstalationDiagram &operator=(ConstalationDiagram &&) = default;
          ConstalationDiagram &operator=(const ConstalationDiagram &) = default;
-         ~ConstalationDiagram();
+         ~ConstalationDiagram(){};
+
+		 const uint16_t ConstalationSize  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS;
 
 
 
@@ -402,20 +400,14 @@ namespace radio
      
      private:
 
-	 	const std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS> m_aConstalationMapping = GetConstalation();
+	 	constalationArray m_aConstalationMapping = GetConstalation();
          
      };
      
-     ConstalationDiagram::ConstalationDiagram()
-     {
-     }
-     
-     ConstalationDiagram::~ConstalationDiagram()
-     {
-     }
+
 
 
 }
 
- static std::complex<double> first (2.0,2.0);
+#endif //CONSTALATION_DIAGRAMS_H
 

@@ -13,3 +13,10 @@ std::error_condition make_error_condition(encoding_error e)
       static_cast<int>(e),
       Radio_Catagory());
 }
+
+std::error_code make_error_code(encoding_error e)
+{
+  return std::error_code(
+      static_cast<int>(e),
+      Radio_Catagory());
+}

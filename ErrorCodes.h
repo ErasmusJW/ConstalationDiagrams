@@ -4,10 +4,17 @@
 #include <system_error>  
 
 
+//proposed error codes regions
+//No error 0
+//No error but log 0-9 result
+//Warning 10 - 19
+//Errror 20 -29
 enum class encoding_error
 {
     OK = 0,
-    NOT_OK
+    CONSTALATION_INVALID_INDEX = 20,
+    MODULATION_BUFFER_SMALL 
+
 };
 
 namespace std //std namespace is legal here don't worry
@@ -28,8 +35,12 @@ class Radio_Catagory_impl
         {
             case static_cast<int>(encoding_error::OK):
                 return "OK";
-            case static_cast<int>( encoding_error::NOT_OK):
-                return "Not ok";
+            case static_cast<int>( encoding_error::CONSTALATION_INVALID_INDEX):
+                return "Tried to look up a constalation value with invalid index";
+            case static_cast<int>( encoding_error::MODULATION_BUFFER_SMALL):
+                return "Output buffer for modulation ConvertBuffer is to small";
+
+
 
             default:
                 return "Unknown Radio error";
@@ -38,7 +49,9 @@ class Radio_Catagory_impl
 
 };
 
-
+const std::error_category& Radio_Catagory();
+std::error_condition make_error_condition(encoding_error e);
+std::error_code make_error_code(encoding_error e);
     
 
 

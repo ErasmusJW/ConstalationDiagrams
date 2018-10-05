@@ -10,14 +10,25 @@ namespace radio {
     {
     }
 
-    valueAndError<cmplx> ModulationMaping::getMappedValues(uint8_t val)
+    
+   
+    valueAndError<cmplx> ModulationMaping::getMappedValue(uint8_t val)
     {
+        
+        
+        //think return value optimasation will prevent coppies, not sure if it works with optimasations off -- will benchmark in future
         valueAndError<cmplx> returnValue;
-        std::error_code ec;
-        ec = encoding_error::NOT_OK;
-        returnValue.err = ec;
-        //returnValue.value = cmplx{2,1};
+        if(val > m_ConstalationDiagram.ConstalationMaxIndex)
+        {
+            returnValue.err = encoding_error::CONSTALATION_INVALID_INDEX;
+            return returnValue;
+            
+        }
+       
+        returnValue.err = encoding_error::OK;
+        returnValue.value = m_ConstalationDiagram.m_aConstalationMapping[val];
         return returnValue;
     }
+
 
 }

@@ -14,9 +14,27 @@
 
 namespace radio
 {
-    // Conveniance typedefs
+    //compile time to the power of
+	template <typename T>
+	constexpr T ipow(T num, unsigned int pow)
+	{
+		return (pow >= sizeof(unsigned int)*8) ? 0 :
+			pow == 0 ? 1 : num * ipow(num, pow-1);
+	}
+	constexpr size_t Log2(size_t n)
+	{
+		return ( (n<2) ? 0 : 1+Log2(n/2));
+	}
+
+	
+	
+	
+	// Conveniance typedefs
     using cmplx = std::complex<float>;
 	using constalationArray = std::array<cmplx,MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS>;
+
+
+
 
 
     // static const std::array<cmplx,8> PSK_8_G = 
@@ -380,7 +398,7 @@ namespace radio
 
 
 
-     class ConstalationDiagram
+     struct ConstalationDiagram
      {
      public:
          ConstalationDiagram(){};
@@ -391,7 +409,12 @@ namespace radio
          ConstalationDiagram &operator=(const ConstalationDiagram &) = default;
          ~ConstalationDiagram(){};
 
-		 const uint16_t ConstalationSize  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS;
+		 const uint8_t ConstalationSize  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS;
+		 const uint8_t ConstalationMaxIndex  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS -1;
+		 const uint8_t BitsPerSymbol  = Log2(MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS);
+		 constalationArray m_aConstalationMapping = GetConstalation();
+
+		  
 
 
 
@@ -400,7 +423,7 @@ namespace radio
      
      private:
 
-	 	constalationArray m_aConstalationMapping = GetConstalation();
+	 	
          
      };
      

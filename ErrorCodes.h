@@ -38,7 +38,7 @@ class Radio_Catagory_impl
             case static_cast<int>( encoding_error::CONSTALATION_INVALID_INDEX):
                 return "Tried to look up a constalation value with invalid index";
             case static_cast<int>( encoding_error::MODULATION_BUFFER_SMALL):
-                return "Output buffer for modulation ConvertBuffer is to small";
+                return "Output buffer for modulation ModulateBuffer is to small";
 
 
 

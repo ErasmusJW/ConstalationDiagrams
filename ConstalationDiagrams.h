@@ -412,6 +412,7 @@ namespace radio
 		 const uint8_t ConstalationSize  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS;
 		 const uint8_t ConstalationMaxIndex  = MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS -1;
 		 const uint8_t BitsPerSymbol  = Log2(MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS);
+		 const uint16_t SetBitsMask = ((1 << BitsPerSymbol) -1 );
 		 constalationArray m_aConstalationMapping = GetConstalation();
 
 		  

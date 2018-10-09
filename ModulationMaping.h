@@ -2,7 +2,7 @@
 #define MODULATION_MAPPING_H
 #include "ConstalationDiagrams/ConstalationDiagrams.h"
 #include "ConstalationDiagrams/ErrorCodes.h"
-#include "TempGlobals.h"
+
 
 
 namespace radio

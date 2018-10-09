@@ -1,4 +1,5 @@
 #include"ModulationMaping.h"
+#include <limits>
 	
 	/**
 	 * C++ version 0.4 char* style "itoa":
@@ -76,13 +77,13 @@ namespace radio {
     {
           char buffer [33];
             itoa (number,buffer,2);
-            pc.printf (" \t binary: %s\n\r",buffer);
+            
     }
 
 
     std::error_code ModulationMaping::DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
     {
-        pc.printf("\n\rDemodulateBuffer-------------entered \n\r");
+        
 
 
 
@@ -91,12 +92,12 @@ namespace radio {
         const uint8_t bitsPerOutput = sizeof (uint8_t) * 8;
 
         const uint8_t SymbolsPerOutput = (bitsPerOutput/ m_ConstalationDiagram.BitsPerSymbol) ;
-        pc.printf("\t SymbolsPerOutput %i \n\r",SymbolsPerOutput);
+        
         const uint32_t minSizeRequiredForOutBuff = uiSizeOfInputBuffer / SymbolsPerOutput;
 
         if(uiSizeOfOutputBuffer < minSizeRequiredForOutBuff)
         {
-           pc.printf("DemodulateBuffer-------------Exit Error \n\r");
+           
           return encoding_error::MODULATION_BUFFER_SMALL;
         }
         uint32_t outBuffTracker = 0;
@@ -107,7 +108,7 @@ namespace radio {
         {
             int8_t inputBufStart = ((i + 1) * SymbolsPerOutput) -1;
             int8_t inputBufEnd =  (i) * SymbolsPerOutput;
-            pc.printf("\t\t  i: %i inputBufStart: %i inputBufEnd: %i \n\r",i,inputBufStart,inputBufEnd);
+            
 
             
             uint8_t outValue = 0;
@@ -148,7 +149,7 @@ namespace radio {
         
  
 
-        pc.printf("DemodulateBuffer-------------Exit Normal\n\r\n\r");  
+        
         return encoding_error::OK;
 
         

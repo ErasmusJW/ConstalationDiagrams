@@ -2,6 +2,7 @@
 #define MODULATION_MAPPING_H
 #include "ConstalationDiagrams/ConstalationDiagrams.h"
 #include "ConstalationDiagrams/ErrorCodes.h"
+#include <tuple>
 
 
 
@@ -26,9 +27,9 @@ class ModulationMaping
   public:
     ModulationMaping();
 
-    //sorry mate, not going to do a malloc for you
+    //sorry mate, not going to do a malloc for you , pair first value error pair second value number of values in outputbuffer
     template<typename T>
-    std::error_code ModulateBuffer(T * pInputBuffer,uint32_t uiSizeOfInputBuffer, cmplx * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
+    std::pair<std::error_code,uint32_t> ModulateBuffer(T * pInputBuffer,uint32_t uiSizeOfInputBuffer, cmplx * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
     {
         //pc.printf("\n\rModulateBuffer-------------entered \n\r");
         
@@ -44,7 +45,7 @@ class ModulationMaping
         if(uiSizeOfOutputBuffer < minSizeRequiredForAutupBuff)
         {
           //pc.printf("ModulateBuffer-------------leave Error \n\r");
-          return encoding_error::MODULATION_BUFFER_SMALL;
+          return {encoding_error::MODULATION_BUFFER_SMALL,0};
         }
         size_t outBufTracker = 0;  
         
@@ -56,7 +57,10 @@ class ModulationMaping
               uint8_t uiLookupVal = (copyOfVal >> (j * m_ConstalationDiagram.BitsPerSymbol)) & m_ConstalationDiagram.SetBitsMask ;
               valueAndError<cmplx>  Val = ModulateValue(uiLookupVal);
               if(Val.err !=  encoding_error::OK)
-                return Val.err;
+              {
+                return  {Val.err,0};
+              }
+              
               pOutbuffer[outBufTracker] = Val.value;
               outBufTracker++;
               
@@ -64,11 +68,11 @@ class ModulationMaping
         }
          
         //pc.printf("ModulateBuffer-------------leave normal \n\r \n\r");
-        return encoding_error::OK;
+        return {encoding_error::OK,minSizeRequiredForAutupBuff};
     }
 
     //notice outputbuffer lockert to uint8_t thus locking BitsPerSymbol <= 8 - check buffer constness
-    std::error_code DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer );
+    std::pair<std::error_code,uint32_t> DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer );
 
 
     // implication of using a uint8_t is 256 id the highest number of points in constalation diagram

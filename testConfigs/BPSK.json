@@ -1,0 +1,11 @@
+{
+    "target_overrides": {
+        "*": {
+
+            "ConstalationDiagrams.NumberOfPoints": 2,
+            "ConstalationDiagrams.modulation": "M_BPSK",
+            "libTest.test_value_1": 250,
+            "libTest.test_value_2": 500
+        }
+    }
+}

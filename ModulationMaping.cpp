@@ -81,7 +81,7 @@ namespace radio {
     }
 
 
-    std::error_code ModulationMaping::DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
+    std::pair<std::error_code,uint32_t> ModulationMaping::DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
     {
         
 
@@ -98,7 +98,7 @@ namespace radio {
         if(uiSizeOfOutputBuffer < minSizeRequiredForOutBuff)
         {
            
-          return encoding_error::MODULATION_BUFFER_SMALL;
+          return {encoding_error::MODULATION_BUFFER_SMALL,0};
         }
         uint32_t outBuffTracker = 0;
         uint8_t outValue = 0;
@@ -150,7 +150,7 @@ namespace radio {
  
 
         
-        return encoding_error::OK;
+        return {encoding_error::OK,minSizeRequiredForOutBuff};
 
         
         

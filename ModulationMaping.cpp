@@ -36,10 +36,12 @@ namespace radio {
 
     ModulationMaping::ModulationMaping()
     {
+       
     }
 
     ModulationMaping::~ModulationMaping()
     {
+        
     }
 
 
@@ -47,8 +49,7 @@ namespace radio {
     //special case for when modulation size small is needed, bsk ect - maybe something more effiecent- a mini distance ect
     deModValueAndDistance ModulationMaping::DemodulateValue(const cmplx &InputVal) const
     {
-        float smallestDistance 
-        = std::numeric_limits<float>::max();
+        float smallestDistance = std::numeric_limits<float>::max();
         uint8_t iReturnValue =0; 
 
         for(uint8_t i = 0 ; i < m_ConstalationDiagram.ConstalationSize ; ++i)
@@ -84,8 +85,11 @@ namespace radio {
     std::pair<std::error_code,uint32_t> ModulationMaping::DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer )
     {
         
-
-
+        // printf("ModulationMaping::DemodulateBuffer uiSizeOfInputBuffer: %i uiSizeOfOutputBuffer: %i \t \n\r",uiSizeOfInputBuffer,uiSizeOfOutputBuffer);
+        // for(uint32_t i = 0 ; i < uiSizeOfInputBuffer ; i++)
+        // {
+        //     printf("Input buf %i \t real: %f \t imag: %f \n\r",i,pInputBuffer[i].real(),pInputBuffer[i].imag());
+        // }
 
         static_assert(MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 2 || MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 4 || MBED_CONF_CONSTALATIONDIAGRAMS_NUMBEROFPOINTS == 16,"Modulation mapping does not yet support support all constalation sizes, byte allignment");
         
@@ -94,6 +98,8 @@ namespace radio {
         const uint8_t SymbolsPerOutput = (bitsPerOutput/ m_ConstalationDiagram.BitsPerSymbol) ;
         
         const uint32_t minSizeRequiredForOutBuff = uiSizeOfInputBuffer / SymbolsPerOutput;
+        // printf("SymbolsPerOutput %i  \n\r",SymbolsPerOutput);
+        // printf("minSizeRequiredForOutBuff %i  \n\r",minSizeRequiredForOutBuff);
 
         if(uiSizeOfOutputBuffer < minSizeRequiredForOutBuff)
         {
@@ -106,9 +112,9 @@ namespace radio {
 
         for(size_t i = 0 ; i < minSizeRequiredForOutBuff ; i++) //little strange as the symbolls are packed lsf
         {
-            int8_t inputBufStart = ((i + 1) * SymbolsPerOutput) -1;
-            int8_t inputBufEnd =  (i) * SymbolsPerOutput;
-            
+            int32_t inputBufStart = ((i + 1) * SymbolsPerOutput) -1;
+            int32_t inputBufEnd =  (i) * SymbolsPerOutput;
+            // printf("Main decode loop %i inputBufStart: %i \t inputBufEnd: %i \t \n\r",i,inputBufStart,inputBufEnd);
 
             
             uint8_t outValue = 0;
@@ -119,7 +125,7 @@ namespace radio {
                 outValue = outValue | val.val;
                 inputBufStart--;
                 
-                printBinaray(outValue);
+                //printBinaray(outValue);
             }
             pOutbuffer[i] = outValue;
         }

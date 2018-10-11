@@ -366,7 +366,11 @@ namespace radio
 					{0.53688,-0.84366},
 					{0.53688,-0.69027}
 				}}  ;
-			#endif  
+			#else
+				static_assert(false,"In correct constalation size for QAM")
+			#endif
+			
+			  
 
 
 		}
@@ -388,11 +392,13 @@ namespace radio
 		#elif(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_PSK)
             return GetConstalationPSK();
 	
-
+		#else
+				static_assert(false,"Unkown modulation");
+		#endif
         // #elif(MBED_CONF_CONSTALATIONDIAGRAMS_MODULATION == M_PSK)
 
 
-        #endif 
+        # 
     } 
 
 

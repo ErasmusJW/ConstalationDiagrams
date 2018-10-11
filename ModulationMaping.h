@@ -71,7 +71,7 @@ class ModulationMaping
         return {encoding_error::OK,minSizeRequiredForAutupBuff};
     }
 
-    //notice outputbuffer lockert to uint8_t thus locking BitsPerSymbol <= 8 - check buffer constness
+    //notice outputbuffer locked to uint8_t thus locking BitsPerSymbol <= 8 - check buffer constness
     std::pair<std::error_code,uint32_t> DemodulateBuffer(cmplx * pInputBuffer,uint32_t uiSizeOfInputBuffer, uint8_t * pOutbuffer,uint32_t uiSizeOfOutputBuffer );
 
 
@@ -94,9 +94,14 @@ class ModulationMaping
     ModulationMaping &operator=(const ModulationMaping &) = default;
     ~ModulationMaping();
 
+     
+    
+
+    
+
   private:
-    //Constalation Diagram specified in compile time macros
     ConstalationDiagram m_ConstalationDiagram;
+    
 };
 } // namespace radio
 
